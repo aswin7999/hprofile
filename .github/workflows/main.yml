@@ -1,42 +1,47 @@
-name : Hprofile Actions
-on: workflow_dispatch
+name: Hprofile Actions
+
+on:
+  workflow_dispatch:
+
 jobs:
   Testing:
     runs-on: ubuntu-latest
+
     steps:
-     - name: Code checkout
-       uses: actions/checkout@v7
+      # Step 1: Clone the repository
+      - name: Code checkout
+        uses: actions/checkout@v4
 
-     - name: Maven test
-       run: mvn test
+      # Step 2: Run Maven unit tests
+      - name: Maven test
+        run: mvn test
 
-     - name: Checkstyle
-       run: mvn checkstyle:checkstyle
+      # Step 3: Check code formatting/style standards
+      - name: Checkstyle
+        run: mvn checkstyle:checkstyle
 
+      # Step 4: Install Java 21 required by modern SonarCloud
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
 
-     # setup java 11 to be default (sonar-scanner requirement as of S.x)
-     - name: Set java 21
-       uses: actions/setup-java@v4
-       with:
-        distribution: 'temurin' # 'Supoorted distribution' for avialable
-        java-version: '21'
-        
-        
-     # Setup sonar-scanner
-     - name: Setup SonarQube
-       uses: warchant/setup-sonar-scanner@v7
+      # Step 5: Install Sonar Scanner CLI
+      - name: Setup SonarQube Scanner
+        uses: warchant/setup-sonar-scanner@v7
 
-     # Run sonar-scanner
-     - name: SonarQube Scan
-       run: |
-         SCANNER_HOME=$(dirname $(dirname $(which sonar-scanner)))
-         $JAVA_HOME/bin/java -jar $SCANNER_HOME/lib/sonar-scanner-cli-*.jar \
-           -Dsonar.host.url=${{ secrets.SONAR_URL }} \
-           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-           -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-           -Dsonar.sources=src/ \
-           -Dsonar.junit.reportsPath=target/surefire-reports/ \
-           -Dsonar.jacoco.reportsPath=target/jacoco.exec \
-           -Dsonar.javacheckstyle.reportPaths=target/checkstyle-result.xml \
-           -Dsonar.java.binaries=target/test-classes/com/visualpathit/account \
+      # Step 6: Execute SonarCloud analysis using runner's Java 21
+      - name: SonarQube Scan
+        run: |
+          SCANNER_HOME=$(dirname $(dirname $(which sonar-scanner)))
+          $JAVA_HOME/bin/java -jar $SCANNER_HOME/lib/sonar-scanner-cli-*.jar \
+            -Dsonar.host.url=${{ secrets.SONAR_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            -Dsonar.sources=src/ \
+            -Dsonar.junit.reportPath=target/surefire-reports/ \
+            -Dsonar.jacoco.reportPath=target/jacoco.exec \
+            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
+            -Dsonar.java.binaries=target/test-classes/com/visualpathit/account
