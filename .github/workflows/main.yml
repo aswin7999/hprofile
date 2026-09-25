@@ -20,6 +20,7 @@ jobs:
        with:
         distribution: 'temurin' # 'Supoorted distribution' for avialable
         java-version: '21'
+        check-latest: false
         
         
      # Setup sonar-scanner
