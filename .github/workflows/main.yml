@@ -15,11 +15,11 @@ jobs:
 
 
      # setup java 11 to be default (sonar-scanner requirement as of S.x)
-     - name: Set java 11
-       uses: actions/setup-java@v7
+     - name: Set java JDK
+       uses: actions/setup-java@v4
        with:
         distribution: 'temurin' # 'Supoorted distribution' for avialable
-        java-version: '25'
+        java-version: '11'
         
         
      # Setup sonar-scanner
