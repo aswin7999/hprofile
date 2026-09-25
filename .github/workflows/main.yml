@@ -7,7 +7,6 @@ jobs:
      - name: Code checkout
        uses: actions/checkout@v7
 
-
      - name: Maven test
        run: mvn test
 
