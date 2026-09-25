@@ -30,7 +30,7 @@ jobs:
      - name: SonarQube Scan
        env:
         JAVA_HOME: ${{ env.JAVA_HOME_21_X64 }}
-        PATH: ${{ env.JAVA_HOME_21_64 }}/bin:${{ env.PATH }}
+        SONAR_SCANNER_OPTS: "-server"
        run: |
          sonar-scanner \
            -Dsonar.host.url=${{ secrets.SONAR_URL }} \
