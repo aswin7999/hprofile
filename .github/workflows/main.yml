@@ -36,12 +36,12 @@ jobs:
         run: |
           SCANNER_HOME=$(dirname $(dirname $(which sonar-scanner)))
           $JAVA_HOME/bin/java -jar $SCANNER_HOME/lib/sonar-scanner-cli-*.jar \
-            -Dsonar.host.url=${{ secrets.SONAR_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-            -Dsonar.sources=src/ \
-            -Dsonar.junit.reportPath=target/surefire-reports/ \
-            -Dsonar.jacoco.reportPath=target/jacoco.exec \
-            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
-            -Dsonar.java.binaries=target/test-classes/com/visualpathit/account
+          -Dsonar.host.url="https://sonarcloud.io" \
+          -Dsonar.token="${{ secrets.SONAR_TOKEN }}" \
+          -Dsonar.organization="hprofile79" \
+          -Dsonar.projectKey="hprofile79_actionscode" \
+          -Dsonar.sources=src/ \
+          -Dsonar.junit.reportPath=target/surefire-reports/ \
+          -Dsonar.jacoco.reportPath=target/jacoco.exec \
+          -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
+          -Dsonar.java.binaries=target/classes,target/test-classes   
