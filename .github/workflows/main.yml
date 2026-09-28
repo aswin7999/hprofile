@@ -50,6 +50,7 @@ jobs:
           -Dsonar.java.binaries=target/classes,target/test-classes
   
   BUILD_AND_PUBLISH:
+    needs: Testing
     runs-on: ubntu-latest
     steps:
       - name: Code checkout
