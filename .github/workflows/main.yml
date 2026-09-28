@@ -6,7 +6,7 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITRY: actapp
-  ECS_SERVICE: vproapp-act-svc
+  ECS_SERVICE: vproapp-act-tdef-service
   ECS_CLUSTER: vproapp-act
   ECS_TASK_DEFINITION: aws-files/taskdeffile.json
   CONTAINER_NAME: vproapp
